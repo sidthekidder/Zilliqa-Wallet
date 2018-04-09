@@ -114,13 +114,13 @@ export class WalletsendComponent implements OnInit {
 
   onSend() {
     this.payment.address = this.convertHexAddress()
-    
+
     let that = this
     this.zilliqaService.sendPayment(this.payment).then((data) => {
-      that.pendingTxId = data.txId
+      that.pendingTxId = data.result
       grecaptcha.reset()
       that.setState(1)
-      that.zilliqaService.refreshBalance().then((data) => {})
+      // that.zilliqaService.refreshBalance().then((data) => {})
     }, (err) => {
       grecaptcha.reset()
       that.setState(3)

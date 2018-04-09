@@ -21,6 +21,7 @@ import { Wallet } from './wallet/wallet';
 import { Constants } from './constants';
 import { zLib } from 'z-lib';
 import { secp256k1, randomBytes, pbkdf2Sync, sha3, sha256 } from 'bcrypto';
+import * as bigInt from 'big-integer';
 import * as scryptAsync from 'scrypt-async';
 import * as aesjs from 'aes-js';
 import * as Signature from 'elliptic/lib/elliptic/ec/signature';
@@ -240,10 +241,13 @@ export class ZilliqaService {
       if (err || data.error) {
         deferred.reject({error: err})
       } else {
+        let balance = bigInt(data.result.balance)
+        let nonce = bigInt(data.result.nonce)
+
         let newUserWallet = {
           address: that.userWallet.address,
-          balance: data.result.balance,
-          nonce: data.result.nonce,
+          balance: balance,
+          nonce: nonce,
           privateKey: that.userWallet.privateKey
         }
         that.userWallet = newUserWallet
@@ -283,8 +287,8 @@ export class ZilliqaService {
     this.userWallet = {
       address: this.getAddressFromPrivateKey(key),
       privateKey: key.toString('hex'),
-      balance: 0,
-      nonce: 0
+      balance: bigInt(0),
+      nonce: bigInt(0)
     }
 
     return key.toString('hex')
@@ -319,10 +323,13 @@ export class ZilliqaService {
           if (err || data.error) {
             deferred.reject({error: err})
           } else {
+            let balance = bigInt(data.result.balance)
+            let nonce = bigInt(data.result.nonce)
+
             that.userWallet = {
               address: addr,
-              balance: data.result.balance,
-              nonce: data.result.nonce,
+              balance: balance,
+              nonce: nonce,
               privateKey: privateKey.toString('hex')
             }
 
@@ -400,7 +407,7 @@ export class ZilliqaService {
 
     let txn = {
       version: 0,
-      nonce: this.userWallet.nonce + 1,
+      nonce: (this.userWallet.nonce.add(1)).toString(),
       to: payment.address,
       amount: payment.amount,
       pubKey: pubKey.toString('hex'),
@@ -409,7 +416,7 @@ export class ZilliqaService {
     }
 
     var msg = this.intToByteArray(txn.version, 8).join('') +
-              this.intToByteArray(txn.nonce, 64).join('') +
+              this.intToByteArray((this.userWallet.nonce.add(1)), 64).join('') +
               txn.to +
               txn.pubKey +
               this.intToByteArray(txn.amount, 64).join('')
@@ -430,8 +437,10 @@ export class ZilliqaService {
       if (err || data.error) {
         deferred.reject(err)
       } else {
+        that.userWallet.nonce = that.userWallet.nonce.add(1)
+
         deferred.resolve({
-          txId: data.result
+          result: data.result
         })
       }
       that.endLoading()
