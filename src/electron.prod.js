@@ -21,7 +21,7 @@ const createWindow = () => {
         slashes: true
     }));
 
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 
 
     // Create the Application's main menu

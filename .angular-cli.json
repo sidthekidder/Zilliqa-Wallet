@@ -10,7 +10,7 @@
       "assets": [
         "assets",
         "zilfavicon.ico",
-        "electron.js",
+        "electron.prod.js",
         "package.json"
       ],
       "index": "index.html",
