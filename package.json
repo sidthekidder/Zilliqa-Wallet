@@ -2,6 +2,10 @@
   "name": "z-wallet",
   "version": "0.0.1",
   "description": "zilliqa wallet app",
+  "author": {
+    "name": "zilliqa",
+    "email": "enquiry@zilliqa.com"
+  },
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -9,7 +13,12 @@
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "electron": "electron ./src/electron.dev",
+    "package:win": "npm run build && cross-var electron-packager dist $npm_package_name-$npm_package_version --out=packages --platform=win32 --arch=all --overwrite ",
+    "package:linux": "npm run build && cross-var electron-packager dist $npm_package_name-$npm_package_version --out=packages --platform=linux --arch=all --overwrite ",
+    "package:osx": "npm run build && cross-var electron-packager dist $npm_package_name-$npm_package_version --out=packages --platform=darwin --arch=all --overwrite ",
+    "package:all": "npm run build && cross-var electron-packager dist $npm_package_name-$npm_package_version --out=packages --all --arch=all --overwrite "
   },
   "private": true,
   "dependencies": {
@@ -44,6 +53,9 @@
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "^6.0.104",
     "codelyzer": "^4.2.1",
+    "cross-var": "^1.1.0",
+    "electron": "^1.8.4",
+    "electron-packager": "^12.0.1",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
     "karma": "~1.7.0",

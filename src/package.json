@@ -1,0 +1,10 @@
+{
+  "name"    : "z-wallet",
+  "version" : "0.0.1",
+  "description": "zilliqa wallet app",
+  "author": {
+    "name": "zilliqa",
+    "email": "enquiry@zilliqa.com"
+  },
+  "main"    : "electron.prod.js"
+}
