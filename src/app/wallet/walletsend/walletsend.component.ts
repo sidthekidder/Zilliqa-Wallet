@@ -15,6 +15,7 @@ import { Wallet } from '../wallet'
 import { Payment } from './payment'
 import { ZilliqaService } from '../../zilliqa.service'
 import * as $ from 'jquery';
+import * as bigInt from 'big-integer';
 
 
 declare var grecaptcha: any
@@ -48,7 +49,7 @@ export class WalletsendComponent implements OnInit {
   ngOnInit() {
     this.wallet = this.zilliqaService.getWallet()
     this.payment = {
-      amount: 0,
+      amount: bigInt(0),
       address: '',
       gasPrice: 0,
       gasLimit: 0

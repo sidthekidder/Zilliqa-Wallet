@@ -394,7 +394,7 @@ export class ZilliqaService {
    * create a new transaction
    * @param {Object} payment - the details of the transaction
    * @param {string} payment.to - address to which transaction is sent to
-   * @param {number} payment.amount - number of zils sent
+   * @param {bigInt} payment.amount - number of zils sent
    * @param {number} payment.gasPrice - gas price for this transaction
    * @param {number} payment.gasLimit - gas limit for this transaction
    * @returns {Promise} Promise object containing the newly created transaction id
@@ -409,7 +409,7 @@ export class ZilliqaService {
       version: 0,
       nonce: (this.userWallet.nonce.add(1)).toString(),
       to: payment.address,
-      amount: payment.amount,
+      amount: parseFloat(payment.amount),
       pubKey: pubKey.toString('hex'),
       gasPrice: payment.gasPrice,
       gasLimit: payment.gasLimit

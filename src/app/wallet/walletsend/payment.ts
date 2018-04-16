@@ -10,7 +10,7 @@
 
 
 export class Payment {
-	amount: number
+	amount: any
 	address: string
 	gasPrice: number
 	gasLimit: number
